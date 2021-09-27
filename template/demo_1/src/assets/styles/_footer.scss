@@ -1,5 +1,5 @@
 .footer {
-  background: $footer-bg;
+  background: $content-bg-footer;
   color: $footer-color;
   border-top: 1px solid darken($footer-bg, 5%);
   padding: 30px 1rem;
@@ -10,8 +10,9 @@
   font-size: calc(#{$default-font-size} - 0.05rem);
   font-family: $type1;
   a {
-    color: theme-color(success);
+    color: theme-color(primary);
     font-size: inherit;
+    font-weight: 500;
   }
   @media (max-width: 991px) {
     margin-left: 0;
