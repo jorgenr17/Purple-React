@@ -166,8 +166,8 @@ class Sidebar extends Component {
               </ul>
             </Collapse>
           </li> */}
-          <li className={this.isPathActive('/main/settings') ? 'nav-item active' : 'nav-item'}>
-            <Link className="nav-link" to="/main/settings">
+          <li className={this.isPathActive('/main/goals') ? 'nav-item active' : 'nav-item'}>
+            <Link className="nav-link" to="/main/goals">
               <span className="menu-title">
                 <Trans>Metas</Trans>
               </span>
