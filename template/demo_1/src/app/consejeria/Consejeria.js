@@ -1,622 +1,335 @@
-import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
-import DatePicker from "react-datepicker";
-import bsCustomFileInput from 'bs-custom-file-input'
+import React, { useState } from 'react'
+import { Form, Badge } from 'react-bootstrap'
+import DatePicker, { registerLocale } from 'react-datepicker'
+import es from 'date-fns/locale/es'
+import TimeKeeper from 'react-timekeeper'
+import { calcTotalHours, emptyArray, validateEmptyText, validateHours } from '../../utils/helpers'
 
-export class BasicElements extends Component {
-  state = {
-    startDate: new Date()
-  };
- 
-  handleChange = date => {
-    this.setState({
-      startDate: date
-    });
-  };
-  componentDidMount() {
-    bsCustomFileInput.init()
+export default function Consejerias() {
+  registerLocale('es', es)
+  const defaulConsejeria = {
+    razon: '',
+    idRemitente: JSON.parse(localStorage.getItem('@SESSION_DATA'))?.user?.id,
+    idEstudiantes: [],
+    fecha: new Date(),
+    horaInicio: '12:00pm',
+    horaFinal: '12:20pm',
+    totalHoras: calcTotalHours('12:00pm', '12:20pm')
   }
-  render() {
-    return (
-      <div>
-        <div className="page-header">
-          <h3 className="page-title"> Form elements </h3>
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Forms</a></li>
-              <li className="breadcrumb-item active" aria-current="page">Form elements</li>
-            </ol>
-          </nav>
-        </div>
-        <div className="row">
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Default form</h4>
-                <p className="card-description"> Basic form layout </p>
-                <form className="forms-sample">
-                  <Form.Group>
-                    <label htmlFor="exampleInputUsername1">Username</label>
-                    <Form.Control type="text" id="exampleInputUsername1" placeholder="Username" size="lg" />
-                  </Form.Group>
-                  <Form.Group>
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <Form.Control type="email" className="form-control" id="exampleInputEmail1" placeholder="Email" />
-                  </Form.Group>
-                  <Form.Group>
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <Form.Control type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
-                  </Form.Group>
-                  <Form.Group>
-                    <label htmlFor="exampleInputConfirmPassword1">Confirm Password</label>
-                    <Form.Control type="password" className="form-control" id="exampleInputConfirmPassword1" placeholder="Password" />
-                  </Form.Group>
-                  <div className="form-check">
-                    <label className="form-check-label text-muted">
-                      <input type="checkbox" className="form-check-input"/>
-                      <i className="input-helper"></i>
-                      Remember me
-                    </label>
-                  </div>
-                  <button type="submit" className="btn btn-gradient-primary mr-2">Submit</button>
-                  <button className="btn btn-light">Cancel</button>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Horizontal Form</h4>
-                <p className="card-description"> Horizontal form layout </p>
-                <form className="forms-sample">
-                  <Form.Group className="row">
-                    <label htmlFor="exampleInputUsername2" className="col-sm-3 col-form-label">Email</label>
-                    <div className="col-sm-9">
-                    <Form.Control type="text" className="form-control" id="exampleInputUsername2" placeholder="Username" />
-                    </div>
-                  </Form.Group>
-                  <Form.Group className="row">
-                    <label htmlFor="exampleInputEmail2" className="col-sm-3 col-form-label">Email</label>
-                    <div className="col-sm-9">
-                    <Form.Control type="email" className="form-control" id="exampleInputEmail2" placeholder="Email" />
-                    </div>
-                  </Form.Group>
-                  <Form.Group className="row">
-                    <label htmlFor="exampleInputMobile" className="col-sm-3 col-form-label">Mobile</label>
-                    <div className="col-sm-9">
-                    <Form.Control type="text" className="form-control" id="exampleInputMobile" placeholder="Mobile number" />
-                    </div>
-                  </Form.Group>
-                  <Form.Group className="row">
-                    <label htmlFor="exampleInputPassword2" className="col-sm-3 col-form-label">Password</label>
-                    <div className="col-sm-9">
-                    <Form.Control type="password" className="form-control" id="exampleInputPassword2" placeholder="Password" />
-                    </div>
-                  </Form.Group>
-                  <Form.Group className="row">
-                    <label htmlFor="exampleInputConfirmPassword2" className="col-sm-3 col-form-label">Re Password</label>
-                    <div className="col-sm-9">
-                    <Form.Control type="password" className="form-control" id="exampleInputConfirmPassword2" placeholder="Password" />
-                    </div>
-                  </Form.Group>
-                  <div className="form-check">
-                    <label className="form-check-label text-muted">
-                      <input type="checkbox" className="form-check-input"/>
-                      <i className="input-helper"></i>
-                      Remember me
-                    </label>
-                  </div>
-                  <button type="submit" className="btn btn-gradient-primary mr-2">Submit</button>
-                  <button className="btn btn-light">Cancel</button>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Basic form elements</h4>
-                <p className="card-description"> Basic form elements </p>
-                <form className="forms-sample">
-                  <Form.Group>
-                    <label htmlFor="exampleInputName1">Name</label>
-                    <Form.Control type="text" className="form-control" id="exampleInputName1" placeholder="Name" />
-                  </Form.Group>
-                  <Form.Group>
-                    <label htmlFor="exampleInputEmail3">Email address</label>
-                    <Form.Control type="email" className="form-control" id="exampleInputEmail3" placeholder="Email" />
-                  </Form.Group>
-                  <Form.Group>
-                    <label htmlFor="exampleInputPassword4">Password</label>
-                    <Form.Control type="password" className="form-control" id="exampleInputPassword4" placeholder="Password" />
-                    </Form.Group>
-                    <Form.Group>
-                    <label htmlFor="exampleSelectGender">Gender</label>
-                    <select className="form-control" id="exampleSelectGender">
-                      <option>Male</option>
-                      <option>Female</option>
-                    </select>
-                  </Form.Group>
-                  <Form.Group>
-                    <label>File upload</label>
-                    <div className="custom-file">
-                      <Form.Control type="file" className="form-control visibility-hidden" id="customFileLang" lang="es"/>
-                      <label className="custom-file-label" htmlFor="customFileLang">Upload image</label>
-                    </div>
-                  </Form.Group>
-                  <Form.Group>
-                    <label htmlFor="exampleInputCity1">City</label>
-                    <Form.Control type="text" className="form-control" id="exampleInputCity1" placeholder="Location" />
-                  </Form.Group>
-                  <Form.Group>
-                    <label htmlFor="exampleTextarea1">Textarea</label>
-                    <textarea className="form-control" id="exampleTextarea1" rows="4"></textarea>
-                  </Form.Group>
-                  <button type="submit" className="btn btn-gradient-primary mr-2">Submit</button>
-                  <button className="btn btn-light">Cancel</button>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Input size</h4>
-                <p className="card-description"> Add classNames like <code>.form-control-lg</code> and <code>.form-control-sm</code>. </p>
+  const defaultValidationObj = { error: false, message: '' }
+  const [students] = useState([
+    { name: 'José Álvarez', id: 1 },
+    { name: 'Pedro Martínez', id: 2 },
+    { name: 'Alejandra Villareal', id: 3 },
+    { name: 'Juan de la Ossa', id: 4 },
+    { name: 'Estephany Argumedo', id: 5 },
+    { name: 'Diana Pérez', id: 6 },
+    { name: 'Jorge Narváez', id: 7 },
+    { name: 'Alexander Fernández', id: 8 },
+    { name: 'Rodrigo García', id: 9 },
+    { name: 'Laura Atencia', id: 10 },
+    { name: 'Lorena Reyes', id: 11 },
+    { name: 'Paula Betacourt', id: 12 },
+    { name: 'Manuel Espitia', id: 13 },
+    { name: 'Elsa Zapata', id: 14 },
+    { name: 'Andrés Ramos', id: 15 },
+    { name: 'Enrique Mena', id: 16 },
+    { name: 'Pablo Zabaleta', id: 17 },
+    { name: 'José Murillo', id: 18 }
+  ])
+  const [studentsFiltered, setStudentsFiltered] = useState(students)
+  const [searchStudents, setSearchStudents] = useState('')
+  const [showTimePickerStart, setShowTimePickerStart] = useState(false)
+  const [showTimePickerEnd, setShowTimePickerEnd] = useState(false)
+  const [consejeria, setConsejeria] = useState({ ...defaulConsejeria })
+  const [validationRazon, setValidationRazon] = useState(defaultValidationObj)
+  const [validationIdEstudiantes, setValidationIdEstudiantes] = useState(defaultValidationObj)
+  const [validationHours, setValidationHours] = useState(defaultValidationObj)
+
+  const handleStudents = student => {
+    const index = consejeria.idEstudiantes.indexOf(student.id)
+    const exist = index !== -1
+    if (exist) {
+      const studentsArray = [...consejeria.idEstudiantes]
+      studentsArray.splice(index, 1)
+      setConsejeria({ ...consejeria, idEstudiantes: [...studentsArray] })
+      setValidationIdEstudiantes(emptyArray(studentsArray))
+    } else {
+      setConsejeria({ ...consejeria, idEstudiantes: [...consejeria.idEstudiantes, student.id] })
+      setValidationIdEstudiantes(emptyArray([...consejeria.idEstudiantes, student.id]))
+    }
+  }
+
+  const handleSearch = text => {
+    if (text) {
+      const filtered = students.filter(s => s.name.toLowerCase().includes(text.toLowerCase()))
+      setStudentsFiltered([...filtered])
+    } else {
+      setStudentsFiltered([...students])
+    }
+    setSearchStudents(text)
+  }
+
+  const validateFields = () => {
+    const fieldValues = [validationRazon.error, validationIdEstudiantes.error, validationHours.error]
+    const { razon, horaInicio, horaFinal, idEstudiantes } = consejeria
+    const consejeriaValues = [razon, horaInicio, horaFinal]
+    const consejeriaArrayValues = [idEstudiantes]
+    const validateBooleanValue = value => value === false
+    const validateStringValue = value => value !== ''
+    const validateArrayValues = value => value.length > 0
+    const result =
+      fieldValues.every(validateBooleanValue) &&
+      consejeriaValues.every(validateStringValue) &&
+      consejeriaArrayValues.every(validateArrayValues)
+    if (!result) {
+      setValidationRazon(validateEmptyText(razon))
+      setValidationIdEstudiantes(emptyArray(idEstudiantes))
+      setValidationHours(validateHours(horaInicio, horaFinal))
+    }
+    return result
+  }
+
+  const handleCreateconsejeria = () => {
+    const isValid = validateFields()
+    if (isValid) {
+      console.log(consejeria)
+    }
+  }
+
+  document.addEventListener('click', evt => {
+    const currentDiv = evt.target
+    if (currentDiv.getAttribute('name') !== 'listSearch' && searchStudents !== '') {
+      setSearchStudents('')
+    }
+  })
+
+  return (
+    <div id="consejeriasView">
+      <div className="page-header">
+        <h3 className="page-title">
+          <span className="page-title-icon bg-primary text-white mr-2">
+            <i className="mdi mdi-chart-bubble"></i>
+          </span>{' '}
+          Consejerías
+        </h3>
+      </div>
+      <div className="row">
+        <div className="col-md-12 grid-margin stretch-card">
+          <div className="card">
+            <div className="card-body">
+              <h4 className="card-title">Registro de consejerías</h4>
+              <p className="card-description"> Complete la información requerida </p>
+              <form className="forms-sample">
                 <Form.Group>
-                  <label>Large input</label>
-                  <Form.Control type="text" className="form-control-lg" placeholder="Username" aria-label="Username" />
+                  <label htmlFor="exampleInputEmail1">Razón de la consejería</label>
+                  <Form.Control
+                    type="text"
+                    className="form-control"
+                    id="exampleInputEmail1"
+                    placeholder="Tema central de la tutoría"
+                    autoComplete="off"
+                    onChange={evt => {
+                      setConsejeria({ ...consejeria, razon: evt.target.value })
+                      setValidationRazon(validateEmptyText(evt.target.value))
+                    }}
+                    value={consejeria.razon}
+                  />
                 </Form.Group>
+                {validationRazon.error && <p className="text-danger mb-4">{validationRazon.message}</p>}
                 <Form.Group>
-                  <label>Default input</label>
-                  <Form.Control type="text" className="form-control" placeholder="Username" aria-label="Username" />
+                  <label htmlFor="searchStudents">Estudiantes que participaron de la consejería</label>
+                  <Form.Control
+                    autoComplete="off"
+                    type="search"
+                    className="form-control"
+                    id="searchStudents"
+                    placeholder="Buscar estudiantes..."
+                    onChange={evt => {
+                      handleSearch(evt.target.value)
+                    }}
+                    value={searchStudents}
+                  />
                 </Form.Group>
-                <Form.Group>
-                  <label>Small input</label>
-                  <Form.Control type="text" className="form-control-sm" placeholder="Username" aria-label="Username" />
-                </Form.Group>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Select size</h4>
-                <p className="card-description"> Add classNamees like <code>.form-control-lg</code> and <code>.form-control-sm</code>. </p>
-                <Form.Group>
-                  <label htmlFor="exampleFormControlSelect1">Large select</label>
-                  <select className="form-control form-control-lg" id="exampleFormControlSelect1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </Form.Group>
-                <Form.Group>
-                  <label htmlFor="exampleFormControlSelect2">Default select</label>
-                  <select className="form-control" id="exampleFormControlSelect2">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </Form.Group>
-                <Form.Group>
-                  <label htmlFor="exampleFormControlSelect3">Small select</label>
-                  <select className="form-control form-control-sm" id="exampleFormControlSelect3">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </Form.Group>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Basic input groups</h4>
-                <p className="card-description"> Basic bootstrap input groups </p>
-                <Form.Group>
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">@</span>
-                    </div>
-                    <Form.Control type="text" className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+                {validationIdEstudiantes.error && <p className="text-danger mb-4">{validationIdEstudiantes.message}</p>}
+                {searchStudents !== '' && (
+                  <div
+                    id="menuSearch"
+                    style={{
+                      position: 'absolute',
+                      zIndex: 3,
+                      maxHeight: 200,
+                      width: '50%',
+                      background: '#FFFFFF',
+                      borderColor: '#ebedf2',
+                      borderWidth: 0.5,
+                      borderStyle: 'solid',
+                      overflowY: 'auto'
+                    }}
+                  >
+                    {studentsFiltered.map((student, i) => {
+                      return (
+                        <div
+                          key={i}
+                          name="listSearch"
+                          style={{
+                            height: 50,
+                            width: '100%',
+                            borderBottomColor: '#ebedf2',
+                            borderBottomWidth: 0.5,
+                            borderBottomStyle: 'solid',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => handleStudents(student)}
+                        >
+                          <span style={{ color: '#76838f' }}>{student.name}</span>
+                          {consejeria.idEstudiantes.indexOf(student.id) !== -1 && (
+                            <i className="mdi mdi-checkbox-marked text-success" style={{ fontSize: '1.5rem' }}></i>
+                          )}
+                        </div>
+                      )
+                    })}
                   </div>
-                </Form.Group>
-                <Form.Group>
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text bg-gradient-primary text-white">$</span>
-                    </div>
-                    <Form.Control type="text" className="form-control" aria-label="Amount (to the nearest dollar)" />
-                    <div className="input-group-append">
-                      <span className="input-group-text">.00</span>
-                    </div>
-                  </div>
-                </Form.Group>
-                <Form.Group>
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">$</span>
-                    </div>
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">0.00</span>
-                    </div>
-                    <Form.Control type="text" className="form-control" aria-label="Amount (to the nearest dollar)" />
-                  </div>
-                </Form.Group>
-                <Form.Group>
-                  <div className="input-group">
-                  <Form.Control type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                    <div className="input-group-append">
-                      <button className="btn btn-sm btn-gradient-primary" type="button">Search</button>
-                    </div>
-                  </div>
-                </Form.Group>
-                <Form.Group>
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <button className="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-                      <div className="dropdown-menu">
-                        <a className="dropdown-item" href="!#" onClick={event => event.preventDefault()}>Action</a>
-                        <a className="dropdown-item" href="!#" onClick={event => event.preventDefault()}>Another action</a>
-                        <a className="dropdown-item" href="!#" onClick={event => event.preventDefault()}>Something else here</a>
-                        <div role="separator" className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="!#" onClick={event => event.preventDefault()}>Separated link</a>
-                      </div>
-                    </div>
-                    <Form.Control type="text" className="form-control" aria-label="Text input with dropdown button" />
-                  </div>
-                </Form.Group>
-                <Form.Group>
-                  <div className="input-group">
-                    <Form.Control type="text" className="form-control" placeholder="Find in facebook" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                      <div className="input-group-append">
-                        <button className="btn btn-sm btn-facebook" type="button">
-                          <i className="mdi mdi-facebook"></i>
-                        </button>
-                      </div>
-                  </div>
-                </Form.Group>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Checkbox Controls</h4>
-                <p className="card-description">Checkbox and radio controls (default appearance is in primary color)</p>
-                <form>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input"/>
-                            <i className="input-helper"></i>
-                            Default
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="checkbox" defaultChecked className="form-check-input"/>
-                            <i className="input-helper"></i>
-                            Checked
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="checkbox" disabled className="form-check-input"/>
-                            <i className="input-helper"></i>
-                            Disabled
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="checkbox" disabled defaultChecked className="form-check-input"/>
-                            <i className="input-helper"></i>
-                            Disabled checked
-                          </label>
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios1" value=""/>
-                            <i className="input-helper"></i>
-                            Default
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" defaultChecked/>
-                            <i className="input-helper"></i>
-                            Selected
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="optionsRadios2" id="optionsRadios3" value="option3" disabled/>
-                            <i className="input-helper"></i>
-                            Disabled
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="optionsRadios2" id="optionsRadios4" value="option4" disabled defaultChecked/>
-                            <i className="input-helper"></i>
-                            Selected and disabled 
-                          </label>
-                        </div>
-                      </Form.Group>
+                )}
+                <div className="mb-4">
+                  {consejeria.idEstudiantes.map((id, i) => {
+                    return (
+                      <span key={i}>
+                        <Badge pill className="bg-secondary" style={{ fontSize: '.8rem', color: '#76838f' }}>
+                          {students.find(s => s.id === id).name}{' '}
+                          <i className="mdi mdi-close" onClick={() => handleStudents({ id })}></i>
+                        </Badge>{' '}
+                      </span>
+                    )
+                  })}
+                </div>
+                <Form.Group className="row">
+                  <div className="col-sm-4 col-form-label">
+                    <label htmlFor="date">Fecha de la consejería</label>
+                    <div>
+                      <DatePicker
+                        className="form-control w-100"
+                        id="date"
+                        selected={new Date(consejeria.fecha)}
+                        locale="es"
+                        maxDate={new Date()}
+                        // minDate={new Date(consejeria.fecha)}
+                        onChange={date => {
+                          setConsejeria({ ...consejeria, fecha: new Date(date).toISOString() })
+                        }}
+                      />
                     </div>
                   </div>
-                </form>
-              </div>
-              <div className="card-body">
-                <p className="card-description">Add className <code>.form-check-&#123;color&#123;</code> for checkbox and radio controls in theme colors</p>
-                <form>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group>
-                        <div className="form-check form-check-primary">
-                          <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input" defaultChecked /> Primary 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-success">
-                          <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input" defaultChecked /> Success 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-info">
-                          <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input" defaultChecked /> Info 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-danger">
-                          <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input" defaultChecked /> Danger 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-warning">
-                          <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input" defaultChecked /> Warning 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group>
-                        <div className="form-check form-check-primary">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="ExampleRadio1" id="ExampleRadio1" defaultChecked /> Primary 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-success">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="ExampleRadio2" id="ExampleRadio2" defaultChecked /> Success 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-info">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="ExampleRadio3" id="ExampleRadio3" defaultChecked /> Info 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-danger">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="ExampleRadio4" id="ExampleRadio4" defaultChecked /> Danger 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        <div className="form-check form-check-warning">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="ExampleRadio5" id="ExampleRadio5" defaultChecked /> Warning 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Inline forms</h4>
-                <p className="card-description"> Use the <code>.form-inline</code> className to display a series of labels, form controls, and buttons on a single horizontal row </p>
-                <form className="form-inline">
-                  <label className="sr-only" htmlFor="inlineFormInputName2">Name</label>
-                  <Form.Control  type="text" className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe" />
-                  <label className="sr-only" htmlFor="inlineFormInputGroupUsername2">Username</label>
-                  <div className="input-group mb-2 mr-sm-2">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text">@</div>
-                    </div>
-                    <Form.Control  type="text" className="form-control" id="inlineFormInputGroupUsername2" placeholder="Username" />
-                  </div>
-                  <div className="form-check mx-sm-2">
-                    <label className="form-check-label">
-                      <input type="checkbox" className="form-check-input" defaultChecked/> Remember me 
-                      <i className="input-helper"></i>
-                    </label>
-                  </div>
-                  <button type="submit" className="btn btn-gradient-primary mb-2">Submit</button>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 grid-margin">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Horizontal Two column</h4>
-                <form className="form-sample">
-                  <p className="card-description"> Personal info </p>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">First Name</label>
-                        <div className="col-sm-9">
-                        <Form.Control  type="text" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Last Name</label>
-                        <div className="col-sm-9">
-                        <Form.Control type="text" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Gender</label>
-                        <div className="col-sm-9">
-                          <select className="form-control">
-                            <option>Male</option>
-                            <option>Female</option>
-                          </select>
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Date of Birth</label>
-                        <div className="col-sm-9">
-                        <DatePicker className="form-control w-100"
-                          selected={this.state.startDate}
-                          onChange={this.handleChange}
+                  <div className="col-sm-4 col-form-label">
+                    <label htmlFor="startTime">Hora inicio</label>
+                    <Form.Control
+                      type="text"
+                      id="startTime"
+                      value={consejeria.horaInicio}
+                      onChange={() => true}
+                      onFocus={() => setShowTimePickerStart(!showTimePickerStart)}
+                    />
+                    {showTimePickerStart && (
+                      <div style={{ position: 'absolute', top: '-5rem' }}>
+                        <TimeKeeper
+                          time={consejeria.horaInicio}
+                          onChange={data => {
+                            setConsejeria({
+                              ...consejeria,
+                              horaInicio: data.formatted12,
+                              totalHoras: calcTotalHours(data.formatted12, consejeria.horaFinal)
+                            })
+                            setValidationHours(validateHours(data.formatted12, consejeria.horaFinal))
+                          }}
+                          doneButton={() => (
+                            <div
+                              className="text-secondary bg-primary"
+                              style={{ textAlign: 'center', padding: 10 }}
+                              onClick={() => setShowTimePickerStart(!showTimePickerStart)}
+                            >
+                              Listo
+                            </div>
+                          )}
                         />
-                        </div>
-                      </Form.Group>
-                    </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Category</label>
-                        <div className="col-sm-9">
-                          <select className="form-control">
-                            <option>Category1</option>
-                            <option>Category2</option>
-                            <option>Category3</option>
-                            <option>Category4</option>
-                          </select>
-                        </div>
-                        </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Membership</label>
-                        <div className="col-sm-4">
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="ExampleRadio4" id="membershipRadios1" defaultChecked /> Free 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        </div>
-                        <div className="col-sm-5">
-                        <div className="form-check">
-                          <label className="form-check-label">
-                            <input type="radio" className="form-check-input" name="ExampleRadio4" id="membershipRadios2" /> Proffessional 
-                            <i className="input-helper"></i>
-                          </label>
-                        </div>
-                        </div>
-                      </Form.Group>
-                    </div>
+                  <div className="col-sm-4 col-form-label">
+                    <label htmlFor="endTime">Hora final</label>
+                    <Form.Control
+                      type="text"
+                      id="endTime"
+                      value={consejeria.horaFinal}
+                      onChange={() => true}
+                      onFocus={() => setShowTimePickerEnd(!showTimePickerEnd)}
+                    />
+                    {showTimePickerEnd && (
+                      <div style={{ position: 'absolute', top: '-5rem' }}>
+                        <TimeKeeper
+                          time={consejeria.horaFinal}
+                          onChange={data => {
+                            setConsejeria({
+                              ...consejeria,
+                              horaFinal: data.formatted12,
+                              totalHoras: calcTotalHours(consejeria.horaInicio, data.formatted12)
+                            })
+                            setValidationHours(validateHours(consejeria.horaInicio, data.formatted12))
+                          }}
+                          doneButton={() => (
+                            <div
+                              className="text-secondary bg-primary"
+                              style={{ textAlign: 'center', padding: 10 }}
+                              onClick={() => setShowTimePickerEnd(!showTimePickerEnd)}
+                            >
+                              Listo
+                            </div>
+                          )}
+                        />
+                      </div>
+                    )}
                   </div>
-                  <p className="card-description"> Address </p>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Address 1</label>
-                        <div className="col-sm-9">
-                        <Form.Control type="text"/>
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">State 1</label>
-                        <div className="col-sm-9">
-                        <Form.Control type="text"/>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Address 2</label>
-                        <div className="col-sm-9">
-                        <Form.Control type="text"/>
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Postcode</label>
-                        <div className="col-sm-9">
-                        <Form.Control type="text"/>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label className="col-sm-3 col-form-label">Cirt</label>
-                        <div className="col-sm-9">
-                        <Form.Control type="text"/>
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">  
-                        <label className="col-sm-3 col-form-label">Country</label>
-                        <div className="col-sm-9">
-                          <select className="form-control">
-                            <option>America</option>
-                            <option>Italy</option>
-                            <option>Russia</option>
-                            <option>Britain</option>
-                          </select>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
-                </form>
-              </div>
+                </Form.Group>
+                {validationHours.error && <p className="text-danger mb-4">{validationHours.message}</p>}
+                <Form.Group>
+                  <label htmlFor="exampleTextarea1">Cantidad de horas de la consejería</label>
+                  <Form.Control
+                    placeholder="Cantidad de horas de la consejería"
+                    disabled
+                    id="exampleTextarea1"
+                    value={consejeria.totalHoras}
+                  />
+                </Form.Group>
+                <div style={{ textAlign: 'right' }}>
+                  <button
+                    className="btn btn-primary mr-2"
+                    onClick={evt => {
+                      evt.preventDefault()
+                      handleCreateconsejeria()
+                    }}
+                  >
+                    Guardar
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={evt => {
+                      evt.preventDefault()
+                      setConsejeria(defaulConsejeria)
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
-
-export default BasicElements

@@ -1,41 +1,33 @@
-import React, { useState } from 'react'
-import Navbar from './shared/Navbar'
-import Sidebar from './shared/Sidebar'
-import SettingsPanel from './shared/SettingsPanel'
-import Footer from './shared/Footer'
+import React from 'react'
 import Login from './user-pages/Login'
-import AppRoutes from './AppRoutes'
 import { connect } from 'react-redux'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
+import Main from './general-pages/Main-page'
+import Error404 from './error-pages/Error404'
 
 function Auth(props) {
-  const [state] = useState({})
-  let navbarComponent = !state.isFullPageLayout ? <Navbar /> : ''
-  let sidebarComponent = !state.isFullPageLayout ? <Sidebar /> : ''
-  let SettingsPanelComponent = !state.isFullPageLayout ? <SettingsPanel /> : ''
-  let footerComponent = !state.isFullPageLayout ? <Footer /> : ''
-  if (props.isAuth) {
-    return (
-      <div className="container-scroller">
-        {navbarComponent}
-        <div className="container-fluid page-body-wrapper">
-          {sidebarComponent}
-          <div className="main-panel">
-            <div className="content-wrapper">
-              <AppRoutes />
-              {SettingsPanelComponent}
-            </div>
-            {footerComponent}
-          </div>
-        </div>
-      </div>
-    )
-  } else {
-    return <Login />
-  }
+  return (
+    <Switch>
+      <Route exact path="/login">
+        {/* <Login /> */}
+        {props.isAuth ? <Redirect to={{ pathname: '/main' }} /> : <Login />}
+      </Route>
+      <Route path="/main">
+        {/* <Main /> */}
+        {props.isAuth ? <Main /> : <Redirect to={{ pathname: '/login' }} />}
+      </Route>
+      <Route exact path="/">
+        <Redirect to={{ pathname: props.isAuth ? '/main/dashboard' : '/login' }} />
+      </Route>
+      <Route path="*">
+        <Error404 />
+      </Route>
+    </Switch>
+  )
 }
 
 const mapStateToProps = state => {
   return { isAuth: state.auth.isAuth }
 }
 
-export default connect(mapStateToProps)(Auth)
+export default withRouter(connect(mapStateToProps)(Auth))

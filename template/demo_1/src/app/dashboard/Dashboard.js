@@ -181,10 +181,10 @@ export class Dashboard extends Component {
     gradientdonut3.addColorStop(1, 'rgba(255, 205, 150, 1)')
 
     const newVisitSaleData = {
-      labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'],
+      labels: ['PDF', '.MP4', 'URL', '.JPG', '.DOC', '.XLSX', '.PPT', '.PNG'],
       datasets: [
         {
-          label: 'CHN',
+          label: 'APRECIACIÓN DEL CINE',
           borderColor: gradientBar1,
           backgroundColor: gradientBar1,
           hoverBackgroundColor: gradientBar1,
@@ -195,7 +195,7 @@ export class Dashboard extends Component {
           data: [20, 40, 15, 35, 25, 50, 30, 20]
         },
         {
-          label: 'USA',
+          label: 'PROGRAMACIÓN WEB',
           borderColor: gradientBar2,
           backgroundColor: gradientBar2,
           hoverBackgroundColor: gradientBar2,
@@ -206,7 +206,7 @@ export class Dashboard extends Component {
           data: [40, 30, 20, 10, 50, 15, 35, 40]
         },
         {
-          label: 'UK',
+          label: 'ESTADÍSTICA',
           borderColor: gradientBar3,
           backgroundColor: gradientBar3,
           hoverBackgroundColor: gradientBar3,
@@ -353,20 +353,20 @@ export class Dashboard extends Component {
             <div className="card">
               <div className="card-body">
                 <div className="clearfix mb-4">
-                  <h4 className="card-title float-left">Cantidad de recursos por tipo de la materia</h4>
+                  <h4 className="card-title float-left">Recursos por curso</h4>
                   <div
                     id="visit-sale-chart-legend"
                     className="rounded-legend legend-horizontal legend-top-right float-right"
                   >
                     <ul>
                       <li>
-                        <span className="legend-dots bg-primary"></span>CHN
+                        <span className="legend-dots bg-primary"></span>APRECIACIÓN DEL CINE
                       </li>
                       <li>
-                        <span className="legend-dots bg-danger"></span>USA
+                        <span className="legend-dots bg-danger"></span>PROGRAMACIÓN WEB
                       </li>
                       <li>
-                        <span className="legend-dots bg-info"></span>UK
+                        <span className="legend-dots bg-info"></span>ESTADÍSTICA
                       </li>
                     </ul>
                   </div>
@@ -384,7 +384,7 @@ export class Dashboard extends Component {
           <div className="col-md-5 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">Recursos de la materia</h4>
+                <h4 className="card-title">Contenido del curso</h4>
                 <Doughnut data={this.state.trafficData} options={this.state.trafficOptions} />
                 <div id="traffic-chart-legend" className="rounded-legend legend-vertical legend-bottom-left pt-4">
                   <ul>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { Collapse } from 'react-bootstrap'
+// import { Collapse } from 'react-bootstrap'
 import { Trans } from 'react-i18next'
+
+console.log(JSON.parse(localStorage.getItem('@SESSION_DATA')))
 
 class Sidebar extends Component {
   state = {}
@@ -33,12 +35,11 @@ class Sidebar extends Component {
 
     const dropdownPaths = [
       { path: '/apps', state: 'appsMenuOpen' },
+      { path: '/main/admin-resources', state: 'adminResourcesMenuOpen' },
       { path: '/basic-ui', state: 'basicUiMenuOpen' },
       { path: '/advanced-ui', state: 'advancedUiMenuOpen' },
       { path: '/form-elements', state: 'formElementsMenuOpen' },
-      { path: '/tutorias', state: 'formElementsMenuOpen' },
-      { path: '/consejerias', state: 'formElementsMenuOpen' },
-      { path: '/tables', state: 'tablesMenuOpen' },
+      { path: '/main/tables', state: 'tablesMenuOpen' },
       { path: '/maps', state: 'mapsMenuOpen' },
       { path: '/icons', state: 'iconsMenuOpen' },
       { path: '/charts', state: 'chartsMenuOpen' },
@@ -65,45 +66,115 @@ class Sidebar extends Component {
                 className="nav-profile-image"
                 style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
               >
-                {/* <img src={require('../../assets/images/faces/face1.jpg')} alt="profile" />
-                <span className="login-status online"></span> */}
-                <i className="mdi mdi-bookmark-check text-success" style={{ fontSize: 25 }}></i>
+                <img src={JSON.parse(localStorage.getItem('@SESSION_DATA'))?.profile?.avatar_url} alt="profile" />
+                {/* <span className="login-status online"></span> */}
+                {/* <i className="mdi mdi-bookmark-check text-success" style={{ fontSize: 25 }}></i> */}
               </div>
               <div className="nav-profile-text">
                 <span className="font-weight-bold mb-2">
-                  <Trans>{JSON.parse(localStorage.getItem('@SESSION_DATA'))?.username}</Trans>
+                  <Trans>{JSON.parse(localStorage.getItem('@SESSION_DATA'))?.user?.name}</Trans>
                 </span>
                 <span className="text-secondary text-small">
-                  <Trans>Dpto Ingenierías</Trans>
+                  <Trans>{JSON.parse(localStorage.getItem('@SESSION_DATA'))?.profile?.primary_email}</Trans>
                 </span>
               </div>
             </a>
           </li>
-          <li className={this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item'}>
-            <Link className="nav-link" to="/dashboard">
+          <li className={this.isPathActive('/main/dashboard') ? 'nav-item active' : 'nav-item'}>
+            <Link className="nav-link" to="/main/dashboard">
               <span className="menu-title">
                 <Trans>Dashboard</Trans>
               </span>
               <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>
-          <li className={this.isPathActive('/tutorias') ? 'nav-item active' : 'nav-item'}>
-            <Link className="nav-link" to="/tutorias">
+          <li className={this.isPathActive('/main/tutorias') ? 'nav-item active' : 'nav-item'}>
+            <Link className="nav-link" to="/main/tutorias">
               <span className="menu-title">
                 <Trans>Tutorias</Trans>
               </span>
               <i className="mdi mdi-bookmark menu-icon"></i>
             </Link>
           </li>
-          <li className={this.isPathActive('/consejerias') ? 'nav-item active' : 'nav-item'}>
-            <Link className="nav-link" to="/consejerias">
+          <li className={this.isPathActive('/main/consejerias') ? 'nav-item active' : 'nav-item'}>
+            <Link className="nav-link" to="/main/consejerias">
               <span className="menu-title">
                 <Trans>Consejerías</Trans>
               </span>
               <i className="mdi mdi-chart-bubble menu-icon"></i>
             </Link>
           </li>
-          <li className={this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item'}>
+          {/* <li className={this.isPathActive('/main/admin-resources') ? 'nav-item active' : 'nav-item'}>
+            <div
+              className={this.state.adminResourcesMenuOpen ? 'nav-link menu-expanded' : 'nav-link'}
+              onClick={() => this.toggleMenuState('adminResourcesMenuOpen')}
+              data-toggle="collapse"
+            >
+              <span className="menu-title">
+                <Trans>Administrar recursos</Trans>
+              </span>
+              <i className="menu-arrow"></i>
+              <i className="mdi mdi-source-merge menu-icon"></i>
+            </div>
+            <Collapse in={this.state.adminResourcesMenuOpen}>
+              <ul className="nav flex-column sub-menu">
+                <li className="nav-item">
+                  {' '}
+                  <Link
+                    className={this.isPathActive('/main/admin-resources/campus') ? 'nav-link active' : 'nav-link'}
+                    to="/main/admin-resources/campus"
+                  >
+                    <Trans>Campus</Trans>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  {' '}
+                  <Link
+                    className={this.isPathActive('/main/admin-resources/schools') ? 'nav-link active' : 'nav-link'}
+                    to="/main/admin-resources/schools"
+                  >
+                    <Trans>Facultades</Trans>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  {' '}
+                  <Link
+                    className={this.isPathActive('/main/admin-resources/programs') ? 'nav-link active' : 'nav-link'}
+                    to="/main/admin-resources/programs"
+                  >
+                    <Trans>Programas</Trans>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  {' '}
+                  <Link
+                    className={this.isPathActive('/main/admin-resources/areas') ? 'nav-link active' : 'nav-link'}
+                    to="/main/admin-resources/areas"
+                  >
+                    <Trans>Areas</Trans>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  {' '}
+                  <Link
+                    className={this.isPathActive('/main/admin-resources/courses') ? 'nav-link active' : 'nav-link'}
+                    to="/main/admin-resources/courses"
+                  >
+                    <Trans>Asignaturas</Trans>
+                  </Link>
+                </li>
+              </ul>
+            </Collapse>
+          </li> */}
+          <li className={this.isPathActive('/main/settings') ? 'nav-item active' : 'nav-item'}>
+            <Link className="nav-link" to="/main/settings">
+              <span className="menu-title">
+                <Trans>Metas</Trans>
+              </span>
+              <i className="mdi mdi-flag menu-icon"></i>
+            </Link>
+          </li>
+          {/* <li className={this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item'}>
             <div
               className={this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link'}
               onClick={() => this.toggleMenuState('basicUiMenuOpen')}
@@ -173,7 +244,7 @@ class Sidebar extends Component {
               </ul>
             </Collapse>
           </li>
-          <li className={this.isPathActive('/tables') ? 'nav-item active' : 'nav-item'}>
+          <li className={this.isPathActive('/main/tables') ? 'nav-item active' : 'nav-item'}>
             <div
               className={this.state.tablesMenuOpen ? 'nav-link menu-expanded' : 'nav-link'}
               onClick={() => this.toggleMenuState('tablesMenuOpen')}
@@ -190,8 +261,8 @@ class Sidebar extends Component {
                 <li className="nav-item">
                   {' '}
                   <Link
-                    className={this.isPathActive('/tables/basic-table') ? 'nav-link active' : 'nav-link'}
-                    to="/tables/basic-table"
+                    className={this.isPathActive('/main/tables/basic-table') ? 'nav-link active' : 'nav-link'}
+                    to="/main/tables/basic-table"
                   >
                     <Trans>Basic Table</Trans>
                   </Link>
@@ -365,7 +436,7 @@ class Sidebar extends Component {
               </span>
               <i className="mdi mdi-file-document-box menu-icon"></i>
             </a>
-          </li>
+          </li> */}
         </ul>
       </nav>
     )
